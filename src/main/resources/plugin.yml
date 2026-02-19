@@ -1,0 +1,11 @@
+name: mcplugins
+version: '1.0-SNAPSHOT'
+main: co.uk.retr00.mcplugins.Mcplugins
+api-version: '1.21'
+commands:
+  freexp:
+    description: Gives 50 XP
+    usage: /freexp
+  helpgui:
+    description: Opens server help GUI
+    usage: /<command>
