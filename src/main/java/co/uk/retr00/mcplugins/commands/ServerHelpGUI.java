@@ -11,8 +11,6 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
-
 public class ServerHelpGUI implements CommandExecutor {
 
     public boolean onCommand(@NotNull CommandSender sender, Command command, @NotNull String label, String @NotNull [] args) {
@@ -22,12 +20,7 @@ public class ServerHelpGUI implements CommandExecutor {
             Player player = (Player) sender;
 
             Inventory gui = Bukkit.createInventory(null, 27, Component.text("Help GUI"));
-
-            gui.setItem(13, createItem(
-                    Material.GRASS_BLOCK,
-                    "<green>Free Diamond",
-                    List.of("<gray>Click to get a free diamond")
-            ));
+            gui.setItem(13, new ItemStack(Material.GRASS_BLOCK));
 
             player.openInventory(gui);
 
