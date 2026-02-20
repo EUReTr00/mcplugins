@@ -25,6 +25,7 @@ public final class Mcplugins extends JavaPlugin implements Listener {
 
         getServer().getPluginManager().registerEvents(new XPBottleBreakListener(), this);
         getCommand("helpgui").setExecutor(new ServerHelpGUI());
+        getServer().getPluginManager().registerEvents(new ServerHelpGUI(), this);
     }
 
     @Override
