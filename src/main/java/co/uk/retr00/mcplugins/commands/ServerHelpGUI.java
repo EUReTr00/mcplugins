@@ -17,11 +17,8 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class ServerHelpGUI implements CommandExecutor, Listener {
 
@@ -36,7 +33,14 @@ public class ServerHelpGUI implements CommandExecutor, Listener {
             meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         }
 
-        meta.lore(loreLines);
+        if (loreLines != null && loreLines.length > 0) {
+            meta.lore(
+                    java.util.Arrays.stream(loreLines)
+                            .map(line -> MiniMessage.miniMessage().deserialize(line))
+                            .toList()
+            );
+        }
+
         item.setItemMeta(meta);
         return item;
     }
@@ -70,9 +74,23 @@ public class ServerHelpGUI implements CommandExecutor, Listener {
 
         if (event.getRawSlot() == 11) {
             Player player = (Player) event.getWhoClicked();
-            player.sendMessage("You just got lucky. Take a Diamond.");
-            player.give(ItemStack.of(Material.DIAMOND));
+
+            if (player.hasPermission("permisison.luck")) {
+                int number = ThreadLocalRandom.current().nextInt(5);
+
+                if (number == 4) {
+                    player.sendMessage("You got lucky!");
+                    player.give(ItemStack.of(Material.DIAMOND, 5));
+                } else {
+                    player.sendMessage("Unlucky, try again soon.");
+                    player.giveExp(10);
+                }
+            } else {
+                player.sendMessage("You don't have access to this command.");
+            }
+
             event.setCancelled(true);
+
         }
     }
 
